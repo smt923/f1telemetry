@@ -57,14 +57,20 @@ func TestGetDriverName(t *testing.T) {
 
 	telemetry.Era = 2017
 	data1 := CarData{DriverID: 9}
-	result1 := telemetry.GetDriverName(data1)
+	result1, err := telemetry.GetDriverName(data1)
+	if err != nil {
+		t.Errorf("GetTeamName returned err: %v", err)
+	}
 	if result1 != "Lewis Hamilton" {
 		t.Errorf("GetDriverName failed, want %s, got %s", "Lewis Hamilton", result1)
 	}
 
 	telemetry.Era = 1980
 	data2 := CarData{DriverID: 3}
-	result2 := telemetry.GetDriverName(data2)
+	result2, err := telemetry.GetDriverName(data2)
+	if err != nil {
+		t.Errorf("GetTeamName returned err: %v", err)
+	}
 	if result2 != "Sophie Levasseur" {
 		t.Errorf("GetDriverName failed, want %s, got %s", "Sophie Levasseur", result2)
 	}
@@ -75,14 +81,20 @@ func TestGetTeamName(t *testing.T) {
 
 	telemetry.Era = 2017
 	data1 := CarData{DriverID: 4}
-	result1 := telemetry.GetTeamName(data1)
+	result1, err := telemetry.GetTeamName(data1)
+	if err != nil {
+		t.Errorf("GetTeamName returned err: %v", err)
+	}
 	if result1 != "Mercedes" {
 		t.Errorf("GetTeamName failed, want %s, got %s", "Mercedes", result1)
 	}
 
 	telemetry.Era = 1980
 	data2 := CarData{DriverID: 10}
-	result2 := telemetry.GetTeamName(data2)
+	result2, err := telemetry.GetTeamName(data2)
+	if err != nil {
+		t.Errorf("GetTeamName returned err: %v", err)
+	}
 	if result2 != "Ferrari 2002" {
 		t.Errorf("GetTeamName failed, want %s, got %s", "Ferrari 2002", result2)
 	}

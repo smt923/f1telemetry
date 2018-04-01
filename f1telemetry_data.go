@@ -120,7 +120,7 @@ var (
 	}
 )
 
-// TelemetryPacket is a Go representation of the UDP data recieved from the F1 2017 game
+// TelemetryPacket is a Go representation of the UDP data received from the F1 2017 game
 type TelemetryPacket struct {
 	Time                 float32
 	LapTime              float32

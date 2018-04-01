@@ -3,11 +3,12 @@ package f1telemetry
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"log"
 	"net"
 )
 
-// Eeasy to memorize helpers for the vairous wheel arrays
+// Easy to memorize helpers for the various wheel arrays
 const (
 	RearLeft = iota
 	RearRight
@@ -15,8 +16,7 @@ const (
 	FrontRight
 )
 
-// ParseBytesToPacket will take a byte slice and return a parsed packet struct,
-// can be used for managing the UDP connection yourself
+// ParseBytesToPacket will take a byte slice and return a parsed packet struct
 func ParseBytesToPacket(buf []byte) (TelemetryPacket, error) {
 	r := bytes.NewReader(buf)
 	packet := TelemetryPacket{}
@@ -86,23 +86,23 @@ func (p TelemetryPacket) GetTyreName() string {
 }
 
 // GetDriverName returns the string name of a driver from a CarData, handling era detection
-func (p TelemetryPacket) GetDriverName(car CarData) string {
+func (p TelemetryPacket) GetDriverName(car CarData) (string, error) {
 	if int(p.Era) == 1980 {
-		return ClassicDrivers[int(car.DriverID)]
+		return ClassicDrivers[int(car.DriverID)], nil
 	}
 	if int(p.Era) == 2017 {
-		return Drivers[int(car.DriverID)]
+		return Drivers[int(car.DriverID)], nil
 	}
-	return "Invalid era for name lookup"
+	return "", errors.New("Could not find a valid name, is era incorrect?")
 }
 
 // GetTeamName returns the string name of a team from a CarData, handling era detection
-func (p TelemetryPacket) GetTeamName(car CarData) string {
+func (p TelemetryPacket) GetTeamName(car CarData) (string, error) {
 	if int(p.Era) == 1980 {
-		return ClassicTeams[int(car.DriverID)]
+		return ClassicTeams[int(car.DriverID)], nil
 	}
 	if int(p.Era) == 2017 {
-		return Teams[int(car.DriverID)]
+		return Teams[int(car.DriverID)], nil
 	}
-	return "Invalid era for name lookup"
+	return "", errors.New("Could not find a valid team name, is era incorrect?")
 }
